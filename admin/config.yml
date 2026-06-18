@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: your-username/your-repo-name # เปลี่ยนเป็นชื่อ Username และ Repo ของคุณ
+  repo: say-story/ar-gaming # เปลี่ยนเป็นชื่อ Username และ Repo ของคุณ
   branch: main # หรือ master ตามที่ใช้งานจริง
 
 media_folder: "assets/uploads" # โฟลเดอร์เก็บรูปภาพ
