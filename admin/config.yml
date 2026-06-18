@@ -1,0 +1,17 @@
+backend:
+  name: github
+  repo: your-username/your-repo-name # เปลี่ยนเป็นชื่อ Username และ Repo ของคุณ
+  branch: main # หรือ master ตามที่ใช้งานจริง
+
+media_folder: "assets/uploads" # โฟลเดอร์เก็บรูปภาพ
+public_folder: "/assets/uploads"
+
+collections:
+  - name: "pages"
+    label: "Pages"
+    folder: "pages"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Body", name: "body", widget: "markdown" }
