@@ -3,65 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Portal</title>
+    <title>ระบบสารสนเทศ โรงเรียนบ้านสุไหงโก-ลก</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Sarabun', sans-serif; }
+    </style>
 </head>
-<body class="bg-gray-50 p-8 font-sans">
-    <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-md p-8">
-        <div class="flex justify-between items-center mb-6 border-b pb-4">
-            <h1 class="text-2xl font-bold text-gray-800">รายการหน้าเว็บทั้งหมด</h1>
-            <a href="/admin" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
-                จัดการระบบ (Admin)
-            </a>
+<body class="bg-slate-50 min-h-screen">
+    
+    <nav class="bg-blue-800 text-white shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <svg class="h-8 w-8 mr-3 text-blue-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path d="M12 14l9-5-9-5-9 5 9 5z" />
+                        <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" />
+                    </svg>
+                    <span class="font-semibold text-xl tracking-wide">พอร์ทัลส่วนกลาง โรงเรียนบ้านสุไหงโก-ลก</span>
+                </div>
+                <div class="flex items-center">
+                    <a href="admin/index.html" class="bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded-lg text-sm font-medium transition-colors shadow-sm">
+                        ⚙️ จัดการระบบ (Admin)
+                    </a>
+                </div>
+            </div>
         </div>
-        
-        <ul id="page-list" class="space-y-3 list-disc pl-5">
-            <li class="text-gray-500 animate-pulse">กำลังโหลดข้อมูล...</li>
-        </ul>
-    </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+            <div class="border-b border-slate-200 bg-slate-50 px-6 py-5">
+                <h2 class="text-xl font-bold text-slate-800">เอกสารและหน้าเว็บทั้งหมด</h2>
+                <p class="text-sm text-slate-500 mt-1">ข้อมูลที่ถูกเพิ่มผ่านระบบบริหารจัดการเนื้อหา</p>
+            </div>
+            
+            <div class="p-6">
+                <ul id="page-list" class="divide-y divide-slate-100">
+                    <li class="py-6 text-slate-500 flex items-center justify-center animate-pulse">
+                        <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        กำลังโหลดข้อมูลจากฐานข้อมูล...
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </main>
 
     <script>
-        // ⚠️ ต้องแก้ไข 2 บรรทัดนี้เป็นข้อมูลของคุณ
-        const githubUser = 'USERNAME_ของคุณ'; 
+        // ⚠️ จุดที่ต้องแก้ไข 1: ใส่ชื่อ GitHub Username ของคุณ
+        const githubUser = 'say-story'; 
+        // ⚠️ จุดที่ต้องแก้ไข 2: ใส่ชื่อ Repository ของคุณ
         const githubRepo = 'REPO_ของคุณ';
         
         async function fetchPages() {
             const listContainer = document.getElementById('page-list');
-            // เรียกใช้ GitHub API เพื่ออ่านเนื้อหาในโฟลเดอร์ /pages
             const apiUrl = `https://api.github.com/repos/${githubUser}/${githubRepo}/contents/pages`;
 
             try {
                 const response = await fetch(apiUrl);
                 
                 if (!response.ok) {
-                    throw new Error('ไม่พบโฟลเดอร์ /pages หรือใส่ชื่อ User/Repo ผิด');
+                    throw new Error('ไม่พบข้อมูล โปรดตรวจสอบชื่อ Username และ Repository ในโค้ดอีกครั้ง');
                 }
 
                 const files = await response.json();
-                listContainer.innerHTML = ''; // ล้างข้อความ "กำลังโหลดข้อมูล..."
+                listContainer.innerHTML = ''; // ล้างสถานะ Loading
 
-                // กรองเอาเฉพาะไฟล์ .md หรือ .html และไม่เอาไฟล์ .keep
+                // คัดกรองเอาเฉพาะไฟล์ .md หรือ .html
                 const pages = files.filter(file => 
                     (file.name.endsWith('.md') || file.name.endsWith('.html')) && file.name !== '.keep'
                 );
 
+                // กรณีที่ยังไม่มีไฟล์หน้าเว็บเลย
                 if (pages.length === 0) {
-                    listContainer.innerHTML = '<li class="text-gray-500">ยังไม่มีหน้าเว็บในระบบ</li>';
+                    listContainer.innerHTML = `
+                        <li class="py-10 text-center">
+                            <p class="text-slate-500 text-lg">ยังไม่มีเอกสารในระบบ</p>
+                            <p class="text-slate-400 text-sm mt-2">กรุณาเข้าสู่ระบบ Admin เพื่อเพิ่มหน้าเว็บใหม่</p>
+                        </li>
+                    `;
                     return;
                 }
 
-                // วนลูปสร้างลิงก์สำหรับแต่ละไฟล์
+                // สร้างรายการหน้าเว็บทีละรายการ
                 pages.forEach(file => {
                     const li = document.createElement('li');
-                    const a = document.createElement('a');
+                    li.className = "py-4 flex hover:bg-slate-50 transition-colors px-4 -mx-4 rounded-lg group";
                     
-                    // สร้างลิงก์ชี้ไปยังไฟล์
+                    const a = document.createElement('a');
                     a.href = `pages/${file.name}`; 
                     
-                    // ตัดนามสกุลไฟล์ออกเพื่อความสวยงามในการแสดงผล
                     const displayName = file.name.replace(/\.(md|html)$/, '');
-                    a.textContent = displayName;
-                    a.className = "text-blue-600 hover:text-blue-800 hover:underline text-lg";
+                    
+                    a.innerHTML = `
+                        <div class="flex items-center">
+                            <svg class="h-6 w-6 text-blue-400 group-hover:text-blue-600 mr-4 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                            <span class="text-lg font-medium text-slate-700 group-hover:text-blue-700 transition-colors">${displayName}</span>
+                        </div>
+                    `;
+                    a.className = "flex-1 block";
                     
                     li.appendChild(a);
                     listContainer.appendChild(li);
@@ -69,11 +115,11 @@
 
             } catch (error) {
                 console.error('Error:', error);
-                listContainer.innerHTML = `<li class="text-red-500">เกิดข้อผิดพลาด: ${error.message}</li>`;
+                listContainer.innerHTML = `<li class="py-6 text-red-500 text-center font-medium">❌ ${error.message}</li>`;
             }
         }
 
-        // เริ่มทำงานเมื่อเปิดหน้าเว็บ
+        // สั่งให้ฟังก์ชันเริ่มดึงข้อมูลเมื่อโหลดหน้าเว็บเสร็จ
         fetchPages();
     </script>
 </body>
