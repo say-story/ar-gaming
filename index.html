@@ -1,1 +1,80 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 p-8 font-sans">
+    <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-md p-8">
+        <div class="flex justify-between items-center mb-6 border-b pb-4">
+            <h1 class="text-2xl font-bold text-gray-800">รายการหน้าเว็บทั้งหมด</h1>
+            <a href="/admin" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+                จัดการระบบ (Admin)
+            </a>
+        </div>
+        
+        <ul id="page-list" class="space-y-3 list-disc pl-5">
+            <li class="text-gray-500 animate-pulse">กำลังโหลดข้อมูล...</li>
+        </ul>
+    </div>
 
+    <script>
+        // ⚠️ ต้องแก้ไข 2 บรรทัดนี้เป็นข้อมูลของคุณ
+        const githubUser = 'USERNAME_ของคุณ'; 
+        const githubRepo = 'REPO_ของคุณ';
+        
+        async function fetchPages() {
+            const listContainer = document.getElementById('page-list');
+            // เรียกใช้ GitHub API เพื่ออ่านเนื้อหาในโฟลเดอร์ /pages
+            const apiUrl = `https://api.github.com/repos/${githubUser}/${githubRepo}/contents/pages`;
+
+            try {
+                const response = await fetch(apiUrl);
+                
+                if (!response.ok) {
+                    throw new Error('ไม่พบโฟลเดอร์ /pages หรือใส่ชื่อ User/Repo ผิด');
+                }
+
+                const files = await response.json();
+                listContainer.innerHTML = ''; // ล้างข้อความ "กำลังโหลดข้อมูล..."
+
+                // กรองเอาเฉพาะไฟล์ .md หรือ .html และไม่เอาไฟล์ .keep
+                const pages = files.filter(file => 
+                    (file.name.endsWith('.md') || file.name.endsWith('.html')) && file.name !== '.keep'
+                );
+
+                if (pages.length === 0) {
+                    listContainer.innerHTML = '<li class="text-gray-500">ยังไม่มีหน้าเว็บในระบบ</li>';
+                    return;
+                }
+
+                // วนลูปสร้างลิงก์สำหรับแต่ละไฟล์
+                pages.forEach(file => {
+                    const li = document.createElement('li');
+                    const a = document.createElement('a');
+                    
+                    // สร้างลิงก์ชี้ไปยังไฟล์
+                    a.href = `pages/${file.name}`; 
+                    
+                    // ตัดนามสกุลไฟล์ออกเพื่อความสวยงามในการแสดงผล
+                    const displayName = file.name.replace(/\.(md|html)$/, '');
+                    a.textContent = displayName;
+                    a.className = "text-blue-600 hover:text-blue-800 hover:underline text-lg";
+                    
+                    li.appendChild(a);
+                    listContainer.appendChild(li);
+                });
+
+            } catch (error) {
+                console.error('Error:', error);
+                listContainer.innerHTML = `<li class="text-red-500">เกิดข้อผิดพลาด: ${error.message}</li>`;
+            }
+        }
+
+        // เริ่มทำงานเมื่อเปิดหน้าเว็บ
+        fetchPages();
+    </script>
+</body>
+</html>
